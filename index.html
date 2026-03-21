@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Text Transposer</title>
+    </head>
+    <body>
+        <h1>Text Transposer</h1>
+        <p>
+            左書きかつ横書きのテキストを縦書きに変換します。<br />
+            処理はすべてクライアントサイドで行われます。サーバー処理はありません。
+        </p>
+        <div>
+            <h2>入力テキスト</h2>
+            <textarea
+                id="input"
+                rows="10"
+                cols="40"
+                placeholder="ここにテキストを入力"
+            ></textarea>
+        </div>
+        <div>
+            <h2>変換結果</h2>
+            <pre id="output"></pre>
+        </div>
+
+        <footer>
+            <p>
+                &copy; 2026 ARGIA. Redistributable under the Apache-2.0 License.
+            </p>
+        </footer>
+    </body>
+    <script>
+        /**
+         * Transpose horizontal text to vertical text.
+         *
+         * In other words, transpose from LTR text to Top-to-Bottom text.
+         *
+         * @param {string[]} lines Lines to transpose.
+         * @returns {string} Transposed text.
+         */
+        function transposeToVertical(lines) {
+            if (
+                lines.length === 0 ||
+                lines.every((line) => line.trim() === "")
+            ) {
+                return "";
+            }
+
+            const maxLength = Math.max(...lines.map((line) => line.length));
+            const paddedLines = lines.map((line) =>
+                line.padEnd(maxLength, "\u3000"),
+            );
+
+            const transposed = [];
+            for (let col = 0; col < maxLength; col++) {
+                transposed.push(
+                    [...paddedLines]
+                        .reverse()
+                        .map((line) => line[col])
+                        .join(""),
+                );
+            }
+
+            return transposed.join("\n");
+        }
+
+        const input = document.getElementById("input");
+        const output = document.getElementById("output");
+
+        input.addEventListener("input", () => {
+            const lines = input.value.split("\n");
+            output.textContent = transposeToVertical(lines);
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            color: #262626;
+
+            margin: 30px auto 0;
+
+            max-width: 800px;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+
+            color: #888;
+        }
+
+        textarea {
+            font-size: 1rem;
+            width: 100%;
+            height: 20rem;
+
+            padding: 10px;
+        }
+
+        pre {
+            font-size: 1rem;
+
+            width: 100%;
+            height: 15rem;
+
+            background-color: #fafafa;
+            padding: 10px;
+
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</html>
