@@ -1,40 +1,86 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Text Transposer</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+            body { font-family: 'Noto Sans JP', sans-serif; }
+            textarea, pre { font-family: 'Noto Sans JP', monospace; }
+        </style>
     </head>
-    <body>
-        <h1>Text Transposer</h1>
-        <p>
-            左書きかつ横書きのテキストを縦書きに変換します。<br />
-            処理はすべてクライアントサイドで行われます。サーバー処理はありません。
-        </p>
-        <div>
-            <h2>入力テキスト</h2>
-            <textarea
-                id="input"
-                rows="10"
-                cols="40"
-                placeholder="ここにテキストを入力"
-            ></textarea>
-        </div>
-        <div>
-            <h2>変換結果</h2>
-            <pre id="output"></pre>
-        </div>
+    <body class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-800">
 
-        <footer>
-            <p>
-                &copy; 2026 ARGIA. Redistributable under the Apache-2.0 License.
-                <a href="https://github.com/ARGI-BERRI/text-transposer"
-                    >GitHub</a
+        <!-- Header -->
+        <header class="bg-white border-b border-slate-200 shadow-sm">
+            <div class="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Text Transposer</h1>
+                    <p class="text-sm text-slate-500 mt-0.5">横書きテキストを縦書きに変換</p>
+                </div>
+                <a
+                    href="https://github.com/ARGI-BERRI/text-transposer"
+                    target="_blank"
+                    class="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors px-3 py-1.5 rounded-lg hover:bg-slate-100"
                 >
-            </p>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main class="max-w-4xl mx-auto px-6 py-10">
+
+            <!-- Description -->
+            <div class="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-8 text-sm text-blue-700">
+                左書き・横書きのテキストを縦書きに変換します。処理はすべてクライアントサイドで行われます。
+            </div>
+
+            <!-- Editor area -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Input -->
+                <div class="flex flex-col gap-2">
+                    <label for="input" class="text-sm font-semibold text-slate-700 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-indigo-400 inline-block"></span>
+                        入力テキスト
+                    </label>
+                    <textarea
+                        id="input"
+                        placeholder="ここにテキストを入力してください…"
+                        class="w-full h-72 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm leading-relaxed shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 transition placeholder:text-slate-300"
+                    ></textarea>
+                </div>
+
+                <!-- Output -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-slate-700 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+                        変換結果
+                    </label>
+                    <pre
+                        id="output"
+                        class="w-full h-72 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-relaxed shadow-sm overflow-auto whitespace-pre-wrap break-words text-slate-600"
+                    ></pre>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-200 mt-10">
+            <div class="max-w-4xl mx-auto px-6 py-5 text-center text-xs text-slate-400">
+                &copy; 2026 ARGIA &mdash; Redistributable under the
+                <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" class="text-slate-500 hover:text-indigo-500 underline underline-offset-2 transition-colors">Apache-2.0 License</a>
+            </div>
         </footer>
-    </body>
-    <script>
+
+        <script>
         /**
          * Transpose horizontal text to vertical text.
          *
@@ -76,53 +122,7 @@
             const lines = input.value.split("\n");
             output.textContent = transposeToVertical(lines);
         });
-    </script>
+        </script>
 
-    <style>
-        body {
-            font-family: sans-serif;
-            color: #262626;
-
-            margin: 30px auto 0;
-
-            max-width: 800px;
-        }
-
-        footer {
-            margin-top: 30px;
-            text-align: center;
-
-            color: #888;
-        }
-
-        textarea {
-            font-size: 1rem;
-            width: 100%;
-            height: 20rem;
-
-            padding: 10px;
-        }
-
-        pre {
-            font-size: 1rem;
-
-            width: 100%;
-            height: 15rem;
-
-            background-color: #fafafa;
-            padding: 10px;
-
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        a {
-            color: #322bff;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    </body>
 </html>
