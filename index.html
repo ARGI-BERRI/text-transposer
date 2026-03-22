@@ -97,8 +97,19 @@
                 return "";
             }
 
-            const maxLength = Math.max(...lines.map((line) => line.length));
-            const paddedLines = lines.map((line) =>
+            // interleave lines and blank lines, so that the transposed text has spaces between original lines
+            const interleaved = [];
+            for (const line of lines) {
+                interleaved.push(line);
+
+                if (line == lines[lines.length - 1]) {
+                    continue;
+                }
+                interleaved.push("");
+            }
+
+            const maxLength = Math.max(...interleaved.map((line) => line.length));
+            const paddedLines = interleaved.map((line) =>
                 line.padEnd(maxLength, "\u3000"),
             );
 
